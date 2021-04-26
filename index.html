@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vebonix-Excel suite </title>
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.8.0/jszip.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.8.0/xlsx.js"></script>
+    <script src="papaparse.min.js"></script>
+
+</head>
+<body>
+    <script>
+        function handleFileSelect(evt) {
+        
+        var files = evt.target.files; // FileList object
+        if(this.files[0].size >52428800){
+          alert("File is too big!");
+          this.value = "";
+        }
+        if(files[0].name.split('.').pop()=="csv"){
+        csvToJSON(files[0]);
+        
+        }else{
+        var xl2json = new ExcelToJSON();
+        xl2json.parseExcel(files[0]);
+        }
+      }
+
+      const GOSCode = {
+        "Jammu and Kashmir":"JK(01)","Himachal Pradesh":"HP(02)","Punjab":"PB(03)","Chandigarh":"CH(04)","Uttrakhand":"UK(05)","Haryana":"HR(06)","Delhi":"DL(07)","Rajasthan":"RJ(08)","Uttar Pradesh":"UP(09)","Bihar":"BR(10)","Sikkim":"SK(11)","Arunachal Pradesh":"AR(12)",
+        "Nagaland":"NL(13)","Manipur":"MN(14)","Mizoram":"MZ(15)","Tripura":"TR(16)","Meghalaya":"ML(17)","Assam":"AS(18)","West Bengal":"WB(19)","Jharkhand":"JH(20)","Orissa":"OD(21)","Chhattisgarh":"CG(22)","Madhya Pradesh":"MP(23)","Gujarat":"GJ(24)",
+        "Dadra and Nagar Haveli and Daman and Diu":"DNHDD(26)","Maharashtra":"MH(27)","Karnataka":"KA(29)","Goa":"GA(30)","Lakshadweep Islands":"LD(31)","Kerala":"KL(32)","Tamil Nadu":"TN(33)","Pondicherry":"PY(34)","Andaman and Nicobar Islands":"AN(35)","Telangana":"TS(36)","Andhra Pradesh":"AD(37)","Ladakh":"LA(38)"
+      }
+      function csvToJSON(file){
+          Papa.parse(file,{
+	config: {
+	header:true,
+  skipEmptyLines:true,
+  Worker:false
+	},
+	before: function(file, inputElem)
+	{
+		// executed before parsing each file begins;
+		// what you return here controls the flow
+	},
+	error: function(err, file, inputElem, reason)
+	{
+    console.log(err);
+		// executed if an error occurs while loading the file,
+		// or if before callback aborted for some reason
+	},
+	complete: function(results,File)
+	{
+    let keys = results.data[0];
+    let keyvalues = results.data.slice(1);
+    let objects = keyvalues.map(array => {
+      let object = {};
+      keys.forEach((key, i) => object[key] = array[i]);
+      return object;
+    });
+    //console.log(objects);
+    jQuery('#xlx_json').val(JSON.stringify(objects));
+    //alert("your file has been uploaded succesfully! please submit the file to start processing.")
+    //console.log(results.data,File);
+    
+		// executed after all files are complete
+	}
+});
+  }
+       
+
+        var ExcelToJSON = function() {
+    
+          this.parseExcel = function(file) {
+            var reader = new FileReader();
+    
+            reader.onload = function(e) {
+              var data = e.target.result;
+              var workbook = XLSX.read(data, {
+                type: 'binary'
+              });
+              workbook.SheetNames.forEach(function(sheetName) {
+                // Here is your object XLSX.utils.sheet_to_json(workbook.Sheets[sheet], {defval:""})
+                var XL_row_object = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName],{header:1});
+                
+                var json_object = JSON.stringify(XL_row_object);
+                //console.log(json_object);
+                let keys1 = JSON.parse(json_object)[0];
+                let keyvalues = JSON.parse(json_object).slice(1);
+                let objects = keyvalues.map(array => {
+                  let object = {};
+                  keys1.forEach((key, i) => object[key] = array[i]);
+                  return object;
+                });
+               // console.log(objects);
+                jQuery( '#xlx_json' ).val(JSON.stringify(objects));
+                //alert("your file has been uploaded succesfully ! please submit the file to start processing!")
+                
+              })
+            };
+    
+            reader.onerror = function(ex) {
+              console.log(ex);
+            };
+    
+            reader.readAsBinaryString(file);
+          };
+      };
+
+      var makecsv;
+        var allkeys;
+        //const temparray=[];
+        
+        function doChanges(evt){
+         // document.getElementById('spinner').style.display = "";
+            const jsondatafinal = JSON.parse(document.getElementById('xlx_json').value);
+            // jsondatafinal.forEach(element => {
+            //   element.POS = GOSCode[element.POS];
+            //     //  if(element.gstin_of_recipient != undefined){
+            //     //   const temp = {};
+            //     //   temp.gstin_of_recipient = element.gstin_of_recipient;
+            //     //   temp.transid = element.transid; 
+            //     //   //const {temp,transid} = [element.gstin_of_recipient,element.transid];
+            //     //    temparray.push(temp);
+            //     //    delete element.gstin_of_recipient;
+            //     //  }      
+            // });
+            //console.log("jsondatafinal",jsondatafinal);
+            const condition = (element)=>{
+            var patt = new RegExp("Credit for Auto-Cancellation of Order");
+            return patt.test(element.description);
+           }
+           const filterdata = jsondatafinal.filter(condition);
+           //console.log(filterdata);
+           filterdata.forEach(element => {
+            var str = element.description.split('(')[1].slice(0,-1);
+            //console.log(typeof(str));
+             //var patt = new RegExp(str.slice(0,-1));
+             const deleCondition = (ele)=>{
+                 return ele.description == str && ele.transaction_date == element.transaction_date
+             }
+             let obj = jsondatafinal.find(deleCondition);
+            // console.log(obj);
+             if (obj!= undefined){
+                // console.log(obj.transid,element.transid);
+                 jsondatafinal.splice(jsondatafinal.findIndex((i)=>{return i.transid === obj.transid}),1);
+                 jsondatafinal.splice(jsondatafinal.findIndex((i)=>{return i.transid == element.transid}),1);
+             }
+             
+           });
+           for(let i=jsondatafinal.length-1;i>=0;i--){
+             //console.log("jsondatafinal")
+            //  console.log("length",i,' ',Object.keys(jsondatafinal).length);
+            //  console.log(Object.values(jsondatafinal[i]));
+            if(GOSCode[jsondatafinal[i].place_of_supply]==undefined){
+               jsondatafinal[i].POS = "OT(97)";
+             }
+             else{
+               jsondatafinal[i].POS = GOSCode[jsondatafinal[i].place_of_supply];
+             }
+             if(jsondatafinal[i].transid == undefined || jsondatafinal[i].transid == '')
+             jsondatafinal.splice(i,1);
+            
+            //  if(jsondatafinal[i].length==0)
+            //  jsondatafinal.splice(i,1);
+           }
+           console.log(jsondatafinal);
+          //  jsondatafinal.forEach(element => {
+          //         element.gstin_of_recipient = " ";         
+          //  });
+          //  temparray.forEach(element => {
+          //   let index = jsondatafinal.findIndex((i)=>{return element.transid==i.transid});
+          //   //console.log(index);
+          //   //console.log(element.transid,element.gstin_of_recipient)
+          //   jsondatafinal[index].gstin_of_recipient = element.gstin_of_recipient;
+          //  });
+           //console.log(jsondatafinal);
+
+            allkeys = JSON.stringify(Object.keys(jsondatafinal[0])).replace(/(^\[)|(\]$)/mg, '');
+            console.log(allkeys);
+            makecsv = jsondatafinal.map(function(d){
+                    return JSON.stringify(Object.values(d));
+                })
+                .join('\n') 
+                .replace(/(^\[)|(\]$)/mg, '');
+            // makecsv = XLSX.utils.json_to_sheet([jsondatafinal],{skipHeader:true});
+            //console.log(makecsv);
+            const a1 = document.getElementById('a1');
+            const blob1 = new Blob([allkeys,'\n',makecsv]);
+            a1.href = URL.createObjectURL(blob1);
+            //document.getElementById('spinner').style.display = "none";
+            //alert("your file has been manipulated succesfully! you can now download the file by clicking on download ")
+            //alert('your excel sheet has been processed successfully, please click on download to retrieve the modified file. \n Thank you, Team Kraft Concept.');
+        
+        
+        }
+
+    </script>
+    <nav>
+        <img class="img" src="vebo Final.png" alt="logo">
+    </nav>
+    <p style="color:black;font-family: sans-serif;margin: auto;align-items: center;text-align: center;top: 3vh;"> Vebonix-Finance Suite Excel Modifier </p>
+    <br>
+    <div style="display: flex;position:absolute;top: 0;left: 0;bottom: 0;right: 0;">
+    <div class="card1" style="margin: auto;"><br>
+        <i style="color: white;font-family: sans-serif;padding:2vh ;"> Upload Your File Here</i> 
+        <div class="wrapper">
+            <div class="file-upload">
+                <input type="file" accept=".xlsx,.csv" id="upload" name="files[]" />
+              <i class="fa fa-arrow-up">   
+              </i>
+          </div>
+            </div>
+            <div>
+              <button id="b1"  class="btn btn-1 btn-1a">Submit</button> 
+          
+            </div>
+            <br><br><br>
+            <div><a id="a1" download="file.csv" class="btn btn-2 btn-2b"  style="padding: 7px; " >
+                <i class="fa fa-download"></i> Download
+             </a></div>
+             <div id="popup-modal" class="modal">
+              <div class="modal-content animated bounce">
+              <a class="modal-close">×</a>
+              <div class="modal-text">
+                <h2>Uploading your file!</h2>
+                <p>Please click on submit to start processing.</p>
+              </div>
+              </div>
+              </div>
+              
+              <div id="popup-modal1" class="modal1">
+                <div class="modal-content animated bounce">
+                <a class="modal-close1">×</a>
+                <div class="modal-text1">
+                  <h2>your file is being processing!</h2>
+                  <p> This may take few seconds!</p>
+                </div>
+                </div>
+                </div>
+
+    </div>
+    <label for="xlx_json"></label>
+          <textarea class="form-control" rows=35 cols=120 id="xlx_json" name="jsondata" style="display: none;" ></textarea>
+    </div>
+    <script>
+        document.getElementById('upload').addEventListener('change', handleFileSelect, false);
+        document.getElementById('b1').addEventListener('click',doChanges,false);
+
+        var modal = document.getElementById('popup-modal');
+        var button1 = document.getElementById("upload");
+        var span = document.getElementsByClassName("modal-close")[0];
+        button1.onchange = function() {
+        modal.style.display = "block";
+        }
+        span.onclick = function() {
+        modal.style.display = "none";
+        }
+        // window.onload = function() {
+        // setTimeout(function() {
+        // modal.style.display = 'block';
+        // }, 3000);
+        // }
+        window.onclick = function(event) {
+        if (event.target == modal) {
+        modal.style.display = "none";
+        }
+}
+        var modal1 = document.getElementById('popup-modal1');
+        var button2 = document.getElementById("b1");
+        var span = document.getElementsByClassName("modal-close1")[0];
+        button2.onclick = function() {
+        modal1.style.display = "block";
+        }
+        span.onclick = function() {
+        modal1.style.display = "none";
+        }
+        // window.onload = function() {
+        // setTimeout(function() {
+        // modal.style.display = 'block';
+        // }, 3000);
+        // }
+        window.onclick = function(event) {
+        if (event.target == modal1) {
+        modal1.style.display = "none";
+        }
+
+}
+
+    </script>
+
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
