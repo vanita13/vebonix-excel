@@ -16,7 +16,7 @@
 <body>
     <script>
         function handleFileSelect(evt) {
-        
+        document.getElementById('spin').style.display = '';
         var files = evt.target.files; // FileList object
         if(this.files[0].size >52428800){
           alert("File is too big!");
@@ -117,7 +117,7 @@
         //const temparray=[];
         
         function doChanges(evt){
-         // document.getElementById('spinner').style.display = "";
+          document.getElementById('spin').style.display = "";
             const jsondatafinal = JSON.parse(document.getElementById('xlx_json').value);
             // jsondatafinal.forEach(element => {
             //   element.POS = GOSCode[element.POS];
@@ -204,17 +204,27 @@
     <nav>
         <img class="img" src="vebo Final.png" alt="logo">
     </nav>
-    <p style="color:black;font-family: sans-serif;margin: auto;align-items: center;text-align: center;top: 3vh;"> Vebonix-Finance Suite Excel Modifier </p>
+    <p > Vebonix-Finance Suite Excel Modifier </p>
     <br>
     <div style="display: flex;position:absolute;top: 0;left: 0;bottom: 0;right: 0;">
     <div class="card1" style="margin: auto;"><br>
-        <i style="color: white;font-family: sans-serif;padding:2vh ;"> Upload Your File Here</i> 
+        <i style="color: white;font-family: sans-serif;padding:2vh ;"> Please upload your file that You want to transform</i> 
         <div class="wrapper">
             <div class="file-upload">
                 <input type="file" accept=".xlsx,.csv" id="upload" name="files[]" />
               <i class="fa fa-arrow-up">   
               </i>
           </div>
+          <div class="spinner circles" id="spin" style="display: none;">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+       </div>
             </div>
             <div>
               <button id="b1"  class="btn btn-1 btn-1a">Submit</button> 
@@ -224,7 +234,8 @@
             <div><a id="a1" download="file.csv" class="btn btn-2 btn-2b"  style="padding: 7px; " >
                 <i class="fa fa-download"></i> Download
              </a></div>
-             <div id="popup-modal" class="modal">
+             
+             <!-- <div id="popup-modal" class="modal">
               <div class="modal-content animated bounce">
               <a class="modal-close">×</a>
               <div class="modal-text">
@@ -232,14 +243,14 @@
                 <p>Please click on submit to start processing.</p>
               </div>
               </div>
-              </div>
+              </div> -->
               
               <div id="popup-modal1" class="modal1">
                 <div class="modal-content animated bounce">
                 <a class="modal-close1">×</a>
                 <div class="modal-text1">
-                  <h2>your file is being processing!</h2>
-                  <p> This may take few seconds!</p>
+                  <h2>your excel sheet has been processed successfully!</h2>
+                  <p> please click on download to retrieve the modified file. <br> Thank you, Team Kraft Concept.</p>
                 </div>
                 </div>
                 </div>
@@ -251,32 +262,46 @@
     <script>
         document.getElementById('upload').addEventListener('change', handleFileSelect, false);
         document.getElementById('b1').addEventListener('click',doChanges,false);
+        document.getElementById('upload').addEventListener('change',fadeOutSpin1,false);
+        document.getElementById('b1').addEventListener('click',fadeOutSpin,false);
+        var anchor = document.getElementById('a1');
+       // anchor.setAttribute("onchange",anchorChange);
+        
 
-        var modal = document.getElementById('popup-modal');
-        var button1 = document.getElementById("upload");
-        var span = document.getElementsByClassName("modal-close")[0];
-        button1.onchange = function() {
-        modal.style.display = "block";
-        }
-        span.onclick = function() {
-        modal.style.display = "none";
-        }
-        // window.onload = function() {
-        // setTimeout(function() {
-        // modal.style.display = 'block';
-        // }, 3000);
-        // }
-        window.onclick = function(event) {
-        if (event.target == modal) {
-        modal.style.display = "none";
-        }
-}
-        var modal1 = document.getElementById('popup-modal1');
+//         var modal = document.getElementById('popup-modal');
+//         var button1 = document.getElementById("upload");
+//         var span = document.getElementsByClassName("modal-close")[0];
+//         button1.onchange = function() {
+//         modal.style.display = "block";
+//         }
+//         span.onclick = function() {
+//         modal.style.display = "none";
+//         }
+//         // window.onload = function() {
+//         // setTimeout(function() {
+//         // modal.style.display = 'block';
+//         // }, 3000);
+//         // }
+//         window.onclick = function(event) {
+//         if (event.target == modal) {
+//         modal.style.display = "none";
+//         }
+// }
+        function fadeOutSpin1(){
+          setTimeout(function(){
+            $("#spin").fadeOut('fast');
+          },1000);
+        }        
+
+        function fadeOutSpin (){
+          setTimeout(function(){
+            $('#spin').fadeOut('fast');
+            var modal1 = document.getElementById('popup-modal1');
         var button2 = document.getElementById("b1");
         var span = document.getElementsByClassName("modal-close1")[0];
-        button2.onclick = function() {
+        button2.onclick = setTimeout(function() {
         modal1.style.display = "block";
-        }
+        },1000);
         span.onclick = function() {
         modal1.style.display = "none";
         }
@@ -289,9 +314,19 @@
         if (event.target == modal1) {
         modal1.style.display = "none";
         }
-
 }
+          },1000);
+          
+        }
+        
+        
+        
 
+        
+        
+
+        
+           
     </script>
 
 
