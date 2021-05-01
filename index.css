@@ -18,7 +18,7 @@ body{
   height: 20%;
   width: 20%;
 }
-@media (max-width:460px){
+@media (max-width:560px){
   .img{
     height: 50%;
     width: 60%;
@@ -31,13 +31,19 @@ p{
   align-items: center;
   text-align: center;
   top: 3vh;
-  font-size: xx-large
+  font-size: xx-large;
 }
-@media (max-width:460px){
+@media (max-width:560px){
   p{
-    font-size: x-large;
+    font-size: large;
   }
 }
+
+.in-head{
+  margin-bottom: 40px;
+padding-bottom: 30px;
+}
+
 /* @media (max-height:560px){
      
      .fa-arrow-up{
@@ -139,13 +145,51 @@ p{
     height: 60vh;
   }
 }
+@media(max-height : 600px){
+  .card1{
+    top:180px;
+    height: 50%;
+  }
+  .btn-1{
+margin-top: 12px;
+font-size: small;
+  }
+  .wrapper{
+    width: 20%;
+    height: 10%;
+  }
+  .wrapper .file-upload{
+    height: 30px;
+    width: 30px;
+    border: 1px solid black;
+    font-size: small;
+    margin:auto;
+  }
+  .wrapper .file-upload input[type='file']{
+    height: 30px;
+    width: 30px;
+  }
+}
+@media(max-height: 400px){
+  .card1{
+    position: relative;
+    top: 40px;
+  }
+}
+@media(max-width: 315px){
+.card1{
+  position: relative;
+  top:30px
+}
+}
 btn {
 	border: none;
 	font-family: inherit;
 	font-size: inherit;
 	
 	cursor: pointer;
-	
+	padding: 0px;
+  margin: 0px;
 	display: inline-block;
 	margin: 15px 30px;
 	text-transform: uppercase;
@@ -185,11 +229,20 @@ btn {
   background-color: #fafbf5;
   border: 3px solid black;
 	color: black;
-  width: 14vh;
-  height: 6vh;
-  margin: auto;
+  width: auto;
+  height: auto;
+  /* margin: auto; */
   border-radius: 25px;
-  font-size: medium;
+  margin-bottom: 50px;
+  padding: 10px;
+}
+@media(max-height:600px){
+  .btn-1{
+    margin-bottom: 20px;
+  }
+  .btn-2b {
+    margin-top: 0px;
+  }
 }
 .btn-1a:hover,
 .btn-1a:active {

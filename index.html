@@ -33,9 +33,9 @@
       }
 
       const GOSCode = {
-        "Jammu and Kashmir":"JK(01)","Himachal Pradesh":"HP(02)","Punjab":"PB(03)","Chandigarh":"CH(04)","Uttrakhand":"UK(05)","Haryana":"HR(06)","Delhi":"DL(07)","Rajasthan":"RJ(08)","Uttar Pradesh":"UP(09)","Bihar":"BR(10)","Sikkim":"SK(11)","Arunachal Pradesh":"AR(12)",
-        "Nagaland":"NL(13)","Manipur":"MN(14)","Mizoram":"MZ(15)","Tripura":"TR(16)","Meghalaya":"ML(17)","Assam":"AS(18)","West Bengal":"WB(19)","Jharkhand":"JH(20)","Orissa":"OD(21)","Chhattisgarh":"CG(22)","Madhya Pradesh":"MP(23)","Gujarat":"GJ(24)",
-        "Dadra and Nagar Haveli and Daman and Diu":"DNHDD(26)","Maharashtra":"MH(27)","Karnataka":"KA(29)","Goa":"GA(30)","Lakshadweep Islands":"LD(31)","Kerala":"KL(32)","Tamil Nadu":"TN(33)","Pondicherry":"PY(34)","Andaman and Nicobar Islands":"AN(35)","Telangana":"TS(36)","Andhra Pradesh":"AD(37)","Ladakh":"LA(38)"
+        "Jammu and Kashmir":"01","Himachal Pradesh":"02","Punjab":"03","Chandigarh":"04","Uttrakhand":"05","Haryana":"06","Delhi":"07","Rajasthan":"08","Uttar Pradesh":"09","Bihar":"10","Sikkim":"11","Arunachal Pradesh":"12",
+        "Nagaland":"13","Manipur":"14","Mizoram":"15","Tripura":"16","Meghalaya":"17","Assam":"18","West Bengal":"19","Jharkhand":"20","Orissa":"21","Chhattisgarh":"22","Madhya Pradesh":"23","Gujarat":"24",
+        "Dadra and Nagar Haveli and Daman and Diu":"26","Maharashtra":"27","Karnataka":"29","Goa":"30","Lakshadweep Islands":"31","Kerala":"32","Tamil Nadu":"33","Pondicherry":"34","Andaman and Nicobar Islands":"35","Telangana":"36","Andhra Pradesh":"37","Ladakh":"38"
       }
       function csvToJSON(file){
           Papa.parse(file,{
@@ -205,13 +205,13 @@
     </script>
     <div class="spinner_overlay" id="spinoverlay" style="display: none;"></div>
     <nav>
-        <img class="img" src="vebo Final.png" alt="logo">
+        <img class="img" src="vebonewfinal.png" alt="logo">
     </nav>
     <p > Vebonix-Finance Suite Excel Modifier </p>
     <br>
     <div style="display: flex;position:absolute;top: 0;left: 0;bottom: 0;right: 0;">
     <div class="card1" style="margin: auto;"><br>
-        <i style="color: black;font-family: sans-serif;padding:2vh ;font-size: medium;"> Please upload your file that You want to transform</i> 
+        <i style="color: black;font-family: sans-serif;padding:2vh ;font-size: medium;" class="in-head"> Please upload your file that You want to transform</i> 
         <div class="wrapper">
             <div class="file-upload">
                 <input type="file" accept=".xlsx,.csv" id="upload" name="files[]" />
@@ -221,10 +221,10 @@
           
             </div>
             <div>
-              <button id="b1"  class="btn btn-1 btn-1a">Submit</button> 
+              <button id="b1"  class="btn btn-1 btn-1a" >Submit</button> 
           
             </div>
-            <br><br><br>
+            
             <div><a id="a1" download="file.csv" class="btn btn-2 btn-2b"  style="padding: 7px; " >
                 <i class="fa fa-download"></i> Download
              </a></div>
