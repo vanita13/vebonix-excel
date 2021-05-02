@@ -269,7 +269,7 @@ btn {
   display: none;
   position: fixed;
   z-index: 9999;
-  padding-top: 100px;
+  padding-top: 50vh;
   top: 0;
   left: 0;
   right: 0;
@@ -338,7 +338,7 @@ btn {
     display: none;
     position: fixed;
     z-index: 9999;
-    padding-top: 100px;
+    padding-top: 55vh;
     top: 0;
     left: 0;
     right: 0;
