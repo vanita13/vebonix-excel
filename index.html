@@ -8,7 +8,7 @@
      
     </title>
     <link rel="shortcut icon" type="image/jpg"  sizes="64x64" href="Veb logo TM.png"/>
-    
+
     <link rel="stylesheet" href="index.css">
     <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
@@ -26,6 +26,21 @@
         if(this.files[0].size >52428800){
           alert("File is too big!");
           this.value = "";
+        }
+        if(files[0].name.split('.').pop() !=='csv' && files[0].name.split('.').pop() !=='xlsx'){
+          var modal = document.getElementById('popup-modal');
+          var span = document.getElementsByClassName("modal-close")[0];
+          modal.style.display = "block";
+          span.onclick = function() {
+        modal.style.display = "none";
+        }
+        window.onclick = function(event) {
+        if (event.target == modal) {
+        modal.style.display = "none";
+        }
+      }
+          // alert("Wooops! Seems you uploaded wrong file! Please upload csv or excel file.");
+          this.value = '';
         }
         if(files[0].name.split('.').pop()=="csv"){
         csvToJSON(files[0]);
@@ -124,7 +139,24 @@
         function doChanges(evt){
           document.getElementById('spin').style.display = "";
           document.getElementById('spinoverlay').style.display="";
+          const checknull = document.getElementById('xlx_json').value;
+          if(checknull == ''){
+            var modal = document.getElementById('popup-modal3');
+          var span = document.getElementsByClassName("modal-close3")[0];
+          modal.style.display = "block";
+          span.onclick = function() {
+        modal.style.display = "none";
+        }
+        window.onclick = function(event) {
+        if (event.target == modal) {
+        modal.style.display = "none";
+        }
+      }
+            
+          }
+          else{
             const jsondatafinal = JSON.parse(document.getElementById('xlx_json').value);
+            // console.log(jsondatafinal);
             // jsondatafinal.forEach(element => {
             //   element.POS = GOSCode[element.POS];
             //     //  if(element.gstin_of_recipient != undefined){
@@ -175,7 +207,7 @@
             //  if(jsondatafinal[i].length==0)
             //  jsondatafinal.splice(i,1);
            }
-           console.log(jsondatafinal);
+          //  console.log(jsondatafinal);
           //  jsondatafinal.forEach(element => {
           //         element.gstin_of_recipient = " ";         
           //  });
@@ -188,7 +220,7 @@
            //console.log(jsondatafinal);
 
             allkeys = JSON.stringify(Object.keys(jsondatafinal[0])).replace(/(^\[)|(\]$)/mg, '');
-            console.log(allkeys);
+            // console.log(allkeys);
             makecsv = jsondatafinal.map(function(d){
                     return JSON.stringify(Object.values(d));
                 })
@@ -199,10 +231,35 @@
             const a1 = document.getElementById('a1');
             const blob1 = new Blob([allkeys,'\n',makecsv]);
             a1.href = URL.createObjectURL(blob1);
+            setTimeout(function(){
+              var modal1 = document.getElementById('popup-modal1');
+        var button2 = document.getElementById("b1");
+        var span = document.getElementsByClassName("modal-close1")[0];
+        
+        modal1.style.display = "flex";
+        
+        span.onclick = function() {
+        modal1.style.display = "none";
+        }
+        // window.onload = function() {
+        // setTimeout(function() {
+        // modal.style.display = 'block';
+        // }, 3000);
+        // }
+        window.onclick = function(event) {
+        if (event.target == modal1) {
+        modal1.style.display = "none";
+        }
+}
+            },1000)
+           
             //document.getElementById('spinner').style.display = "none";
             //alert("your file has been manipulated succesfully! you can now download the file by clicking on download ")
             //alert('your excel sheet has been processed successfully, please click on download to retrieve the modified file. \n Thank you, Team Kraft Concept.');
         
+
+          }
+            
         
         }
 
@@ -260,6 +317,15 @@
       <div></div>
       <div></div>
  </div>
+ <div id="popup-modal" class="modal" style="color: white; margin: auto;">
+  <div class="modal-content animated bounce">
+  <a class="modal-close">×</a>
+  <div class="modal-text">
+    <h2>Wooooops! Seems you uploaded a wrong  file !</h2>
+    <p> Please upload your Excel GST file here. <br> Thank you, Team Kraft Concept.</p>
+  </div>
+  </div>
+  </div>
  
     <div id="popup-modal1" class="modal1" style="color: white; margin: auto;">
       <div class="modal-content animated bounce">
@@ -270,6 +336,15 @@
       </div>
       </div>
       </div>
+      <div id="popup-modal3" class="modal3" style="color: white; margin: auto;">
+        <div class="modal-content animated bounce">
+        <a class="modal-close3">×</a>
+        <div class="modal-text3">
+          <h2>Wooooops! No file chosen!</h2>
+          <p> Please upload your Excel GST file. <br> Thank you, Team Kraft Concept.</p>
+        </div>
+        </div>
+        </div>
     <label for="xlx_json"></label>
           <textarea class="form-control" rows=35 cols=120 id="xlx_json" name="jsondata" style="display: none;" ></textarea>
     </div>
@@ -315,25 +390,25 @@
           setTimeout(function(){
             $('#spin').fadeOut('fast');
             $('#spinoverlay').fadeOut('fast');
-            var modal1 = document.getElementById('popup-modal1');
-        var button2 = document.getElementById("b1");
-        var span = document.getElementsByClassName("modal-close1")[0];
-        button2.onclick = setTimeout(function() {
-        modal1.style.display = "flex";
-        },1000);
-        span.onclick = function() {
-        modal1.style.display = "none";
-        }
-        // window.onload = function() {
-        // setTimeout(function() {
-        // modal.style.display = 'block';
-        // }, 3000);
-        // }
-        window.onclick = function(event) {
-        if (event.target == modal1) {
-        modal1.style.display = "none";
-        }
-}
+//             var modal1 = document.getElementById('popup-modal1');
+//         var button2 = document.getElementById("b1");
+//         var span = document.getElementsByClassName("modal-close1")[0];
+//         button2.onclick = setTimeout(function() {
+//         modal1.style.display = "flex";
+//         },1000);
+//         span.onclick = function() {
+//         modal1.style.display = "none";
+//         }
+//         // window.onload = function() {
+//         // setTimeout(function() {
+//         // modal.style.display = 'block';
+//         // }, 3000);
+//         // }
+//         window.onclick = function(event) {
+//         if (event.target == modal1) {
+//         modal1.style.display = "none";
+//         }
+// }
           },1000);
           
         }
