@@ -36,6 +36,12 @@
             padding: 45px;
             text-align: center;
             box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+            border-radius: 25px;
+        }
+        @media(max-width: 560px){
+          .staticrypt-form{
+            max-width: 200px;
+          }
         }
 
         .staticrypt-form input {
@@ -47,18 +53,20 @@
             padding: 15px;
             box-sizing: border-box;
             font-size: 14px;
+            border-radius: 25px;
         }
 
         .staticrypt-form .staticrypt-decrypt-button {
             text-transform: uppercase;
             outline: 0;
-            background: #4CAF50;
+            background: black;
             width: 100%;
             border: 0;
             padding: 15px;
             color: #FFFFFF;
             font-size: 14px;
             cursor: pointer;
+            border-radius: 25px;
         }
 
         .staticrypt-form .staticrypt-decrypt-button:hover, .staticrypt-form .staticrypt-decrypt-button:active, .staticrypt-form .staticrypt-decrypt-button:focus {
@@ -71,14 +79,15 @@
 
         .staticrypt-body {
             margin-bottom: 1em;
-            background: #76b852; /* fallback for old browsers */
-            background: -webkit-linear-gradient(right, #76b852, #8DC26F);
-            background: -moz-linear-gradient(right, #76b852, #8DC26F);
-            background: -o-linear-gradient(right, #76b852, #8DC26F);
-            background: linear-gradient(to left, #76b852, #8DC26F);
+            background:  #939492; /* fallback for old browsers */
+            background: -webkit-linear-gradient(right, #919290, #d9dbd8);
+            background: -moz-linear-gradient(right, #919290, #d9dbd8);
+            background: -o-linear-gradient(right, #919290, #d9dbd8);
+            background: linear-gradient(left, #919290, #d9dbd8);
             font-family: "Arial", sans-serif;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
+            border-radius: 25px;
         }
 
         .staticrypt-instructions {
@@ -114,6 +123,12 @@
 </head>
 
 <body class="staticrypt-body">
+    <nav>
+        <a href="https://vebonix.com" target="_blank">
+            <img src="vebonewfinal.png" alt=""  style="width: 270px;height:auto;margin-left: 20px;">
+        </a>
+       
+      </nav>
 <div class="staticrypt-page">
     <div class="staticrypt-form">
         <div class="staticrypt-instructions">
@@ -127,16 +142,16 @@
             <input id="staticrypt-password"
                    type="password"
                    name="password"
-                   placeholder="passphrase"
+                   placeholder="Please enter password"
                    autofocus/>
 
-            <input type="submit" class="staticrypt-decrypt-button" value="DECRYPT"/>
+            <input type="submit" class="staticrypt-decrypt-button" value="SUBMIT"/>
         </form>
     </div>
 
 </div>
 <footer class="staticrypt-footer">
-    <p class="pull-right">Created with <a href="https://robinmoisson.github.io/staticrypt">StatiCrypt</a></p>
+    <p class="pull-right">Powered by <a href="https://kraftconcept.com">Kraft Concept</a></p>
 </footer>
 
 
